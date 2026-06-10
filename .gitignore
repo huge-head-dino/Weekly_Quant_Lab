@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local environment
+.env
+.env.*
+
+# yfinance / cache / local db
+.yfinance/
+.cache/
+cache/
+*.sqlite
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Keep generated Week outputs tracked for portfolio unless files become too large.
