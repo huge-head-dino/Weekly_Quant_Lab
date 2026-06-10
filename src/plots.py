@@ -66,3 +66,31 @@ def save_forward_return_bar_chart(
     ax.set_xlabel("Forward Horizon")
     ax.set_ylabel("Mean Forward Return (%)")
     _save_figure(fig, output_path)
+
+
+def save_rolling_correlation_chart(
+    rolling_df: pd.DataFrame,
+    output_path: Path,
+    title: str,
+) -> None:
+    """Save a rolling-correlation time-series chart."""
+    if "rolling_correlation" not in rolling_df.columns:
+        raise KeyError("롤링 상관관계 차트를 그리려면 'rolling_correlation' 열이 필요합니다.")
+
+    clean = rolling_df[["rolling_correlation"]].dropna()
+    if clean.empty:
+        raise ValueError("롤링 상관관계 차트를 그릴 데이터가 없습니다.")
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(
+        clean.index,
+        clean["rolling_correlation"],
+        color="#264653",
+        linewidth=1.3,
+    )
+    ax.axhline(0, color="#666666", linewidth=0.8, linestyle="--")
+    ax.set_title(title)
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Rolling Correlation")
+    fig.autofmt_xdate()
+    _save_figure(fig, output_path)

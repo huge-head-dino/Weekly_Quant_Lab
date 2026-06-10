@@ -15,17 +15,20 @@ from src.metrics import (
     add_daily_returns,
     build_summary_table,
     calculate_return_correlation,
+    calculate_rolling_correlation,
     summarize_returns_by_quantile,
 )
 from src.plots import (
     save_forward_return_bar_chart,
     save_quantile_bar_chart,
+    save_rolling_correlation_chart,
     save_scatter_plot,
 )
 from src.utils import ensure_directories, save_dataframe
 
 DEFAULT_START_DATE = "2010-01-01"
 DEFAULT_END_DATE = date.today().isoformat()
+ROLLING_WINDOW = 252
 
 
 def parse_args() -> argparse.Namespace:
@@ -69,22 +72,40 @@ def main() -> int:
     analysis_df = add_forward_returns(analysis_df)
 
     correlation = calculate_return_correlation(analysis_df)
+    rolling_df = calculate_rolling_correlation(
+        analysis_df,
+        x_col="kospi_return",
+        y_col="usdkrw_return",
+        window=ROLLING_WINDOW,
+    )
     quantile_summary = summarize_returns_by_quantile(analysis_df)
     event_summary, event_details, fx_spike_threshold = summarize_event_study(analysis_df)
+
+    rolling_summary = {
+        "rolling_corr_window": ROLLING_WINDOW,
+        "rolling_corr_latest": float(rolling_df["rolling_correlation"].iloc[-1]),
+        "rolling_corr_mean": float(rolling_df["rolling_correlation"].mean()),
+        "rolling_corr_min": float(rolling_df["rolling_correlation"].min()),
+        "rolling_corr_max": float(rolling_df["rolling_correlation"].max()),
+    }
+
     summary_table = build_summary_table(
         df=analysis_df,
         correlation=correlation,
         quantile_summary=quantile_summary,
         fx_spike_event_count=len(event_details),
         fx_spike_threshold=fx_spike_threshold,
+        rolling_summary=rolling_summary,
     )
 
+    # 원본과 가공 데이터를 함께 남겨 두면 결과를 다시 확인하기 쉽다.
     save_dataframe(raw_frames["kospi"], raw_dir / "kospi_raw.csv")
     save_dataframe(raw_frames["usdkrw"], raw_dir / "usdkrw_raw.csv")
     save_dataframe(analysis_df, processed_dir / "analysis_dataset.csv")
     save_dataframe(event_details, processed_dir / "fx_spike_events.csv")
     save_dataframe(quantile_summary, table_dir / "quantile_summary.csv", index=False)
     save_dataframe(event_summary, table_dir / "event_study_summary.csv", index=False)
+    save_dataframe(rolling_df, table_dir / "rolling_correlation.csv")
     save_dataframe(summary_table, table_dir / "summary_table.csv", index=False)
 
     save_scatter_plot(
@@ -99,12 +120,18 @@ def main() -> int:
         event_summary,
         chart_dir / "forward_return_after_fx_spike.png",
     )
+    save_rolling_correlation_chart(
+        rolling_df,
+        chart_dir / "rolling_correlation_252d.png",
+        title="252-Day Rolling Correlation: KOSPI vs USD/KRW Returns",
+    )
 
     print("Week 1 분석 완료")
     print(f"- 분석 기간: {analysis_df.index.min():%Y-%m-%d} ~ {analysis_df.index.max():%Y-%m-%d}")
     print(f"- 관측치 수: {len(analysis_df[['kospi_return', 'usdkrw_return']].dropna())}")
     print(f"- 상관계수: {correlation:.6f}")
     print(f"- 환율 급등 이벤트 수: {len(event_details)}")
+    print(f"- 252일 롤링 상관관계 최근 값: {rolling_summary['rolling_corr_latest']:.6f}")
     print(f"- 표 저장 위치: {table_dir}")
     print(f"- 차트 저장 위치: {chart_dir}")
 

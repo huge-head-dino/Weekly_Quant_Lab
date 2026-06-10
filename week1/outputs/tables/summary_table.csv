@@ -5,6 +5,11 @@ overall,observation_count,4030
 overall,correlation,-0.19098692302246062
 overall,fx_spike_event_count,403
 overall,fx_spike_threshold,0.007452505141434228
+rolling_correlation,rolling_corr_window,252
+rolling_correlation,rolling_corr_latest,-0.3954283036294621
+rolling_correlation,rolling_corr_mean,-0.19015717131527327
+rolling_correlation,rolling_corr_min,-0.3954283036294621
+rolling_correlation,rolling_corr_max,0.05232576401340465
 fx_quantile,Q1_kospi_return_mean,0.0037379465144554936
 fx_quantile,Q1_kospi_return_median,0.002650661584651215
 fx_quantile,Q1_kospi_positive_rate,0.6339950372208437

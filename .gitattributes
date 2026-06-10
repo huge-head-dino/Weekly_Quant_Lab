@@ -1,0 +1,17 @@
+# Normalize text files in the repository
+* text=auto
+
+# Keep Python and markdown files with LF line endings
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.csv text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
