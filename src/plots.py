@@ -14,6 +14,32 @@ def _save_figure(fig: plt.Figure, output_path: Path) -> None:
     plt.close(fig)
 
 
+def _save_mean_return_bar_chart(
+    summary_df: pd.DataFrame,
+    category_col: str,
+    value_col: str,
+    output_path: Path,
+    title: str,
+    x_label: str,
+    y_label: str,
+    color: str,
+) -> None:
+    if category_col not in summary_df.columns or value_col not in summary_df.columns:
+        raise KeyError(f"차트 생성에 필요한 열이 없습니다: {category_col}, {value_col}")
+
+    clean = summary_df[[category_col, value_col]].dropna()
+    if clean.empty:
+        raise ValueError("막대 차트를 그릴 데이터가 없습니다.")
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.bar(clean[category_col], clean[value_col] * 100, color=color)
+    ax.axhline(0, color="#666666", linewidth=0.8)
+    ax.set_title(title)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    _save_figure(fig, output_path)
+
+
 def save_scatter_plot(
     df: pd.DataFrame,
     output_path: Path,
@@ -37,17 +63,50 @@ def save_quantile_bar_chart(
     output_path: Path,
 ) -> None:
     """Save a bar chart of mean KOSPI returns by FX-return quantile."""
-    fig, ax = plt.subplots(figsize=(8, 5))
-    ax.bar(
-        quantile_summary["fx_quantile"],
-        quantile_summary["kospi_return_mean"] * 100,
+    _save_mean_return_bar_chart(
+        summary_df=quantile_summary,
+        category_col="fx_quantile",
+        value_col="kospi_return_mean",
+        output_path=output_path,
+        title="Mean KOSPI Return by USD/KRW Quantile",
+        x_label="USD/KRW Return Quantile",
+        y_label="Mean KOSPI Return (%)",
         color="#2a9d8f",
     )
-    ax.axhline(0, color="#666666", linewidth=0.8)
-    ax.set_title("Mean KOSPI Return by USD/KRW Quantile")
-    ax.set_xlabel("USD/KRW Return Quantile")
-    ax.set_ylabel("Mean KOSPI Return (%)")
-    _save_figure(fig, output_path)
+
+
+def save_won_specific_pressure_quantile_chart(
+    quantile_summary: pd.DataFrame,
+    output_path: Path,
+) -> None:
+    """Save mean KOSPI returns across won-specific FX pressure quantiles."""
+    _save_mean_return_bar_chart(
+        summary_df=quantile_summary,
+        category_col="won_specific_pressure_quantile",
+        value_col="kospi_return_mean",
+        output_path=output_path,
+        title="Mean KOSPI Return by Won-Specific FX Pressure Quantile",
+        x_label="Won-Specific FX Pressure Quantile",
+        y_label="Mean KOSPI Return (%)",
+        color="#457b9d",
+    )
+
+
+def save_foreign_flow_quantile_chart(
+    quantile_summary: pd.DataFrame,
+    output_path: Path,
+) -> None:
+    """Save mean KOSPI returns across foreign-flow quantiles."""
+    _save_mean_return_bar_chart(
+        summary_df=quantile_summary,
+        category_col="foreign_flow_quantile",
+        value_col="kospi_return_mean",
+        output_path=output_path,
+        title="Mean KOSPI Return by Foreign Net-Buy Quantile",
+        x_label="Foreign Net-Buy Quantile",
+        y_label="Mean KOSPI Return (%)",
+        color="#6a994e",
+    )
 
 
 def save_forward_return_bar_chart(
@@ -55,17 +114,33 @@ def save_forward_return_bar_chart(
     output_path: Path,
 ) -> None:
     """Save a bar chart of mean forward returns after FX spike events."""
-    fig, ax = plt.subplots(figsize=(8, 5))
-    ax.bar(
-        event_summary["horizon"],
-        event_summary["average_forward_return"] * 100,
+    _save_mean_return_bar_chart(
+        summary_df=event_summary,
+        category_col="horizon",
+        value_col="average_forward_return",
+        output_path=output_path,
+        title="Mean Forward Return After USD/KRW Spike",
+        x_label="Forward Horizon",
+        y_label="Mean Forward Return (%)",
         color="#e76f51",
     )
-    ax.axhline(0, color="#666666", linewidth=0.8)
-    ax.set_title("Mean Forward Return After USD/KRW Spike")
-    ax.set_xlabel("Forward Horizon")
-    ax.set_ylabel("Mean Forward Return (%)")
-    _save_figure(fig, output_path)
+
+
+def save_foreign_selloff_forward_return_chart(
+    event_summary: pd.DataFrame,
+    output_path: Path,
+) -> None:
+    """Save a bar chart of mean forward returns after foreign selloff events."""
+    _save_mean_return_bar_chart(
+        summary_df=event_summary,
+        category_col="horizon",
+        value_col="average_forward_return",
+        output_path=output_path,
+        title="Mean Forward Return After Foreign Selloff",
+        x_label="Forward Horizon",
+        y_label="Mean Forward Return (%)",
+        color="#bc6c25",
+    )
 
 
 def save_rolling_correlation_chart(

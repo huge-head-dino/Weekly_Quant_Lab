@@ -1,0 +1,9 @@
+﻿section,metric,value
+dxy,analysis_start,2010-01-05
+dxy,analysis_end,2026-06-09
+dxy,observation_count,3906
+dxy,kospi_dxy_correlation,-0.0812041126982447
+dxy,usdkrw_dxy_correlation,0.051031119978527315
+dxy,kospi_won_specific_pressure_correlation,-0.12126490428468437
+dxy,won_specific_pressure_mean,7.87996159510283e-05
+dxy,won_specific_pressure_median,-7.711182808201045e-05

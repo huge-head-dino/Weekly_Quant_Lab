@@ -3,9 +3,9 @@
 ## Current Status
 
 - Project Name: Weekly Quant Lab
-- Status Summary: Week 1 Level 3 블로그형 리서치 노트 고도화 중
+- Status Summary: Week 1 DXY 및 선택형 외국인 순매수 확장 분석 구현 중
 - Week 1 Topic: 달러 강세와 KOSPI 관계 분석
-- Current Work: 무료 블로그형 콘텐츠 기준에 맞춰 연구 맥락, 시장 맥락, 자체 분석 결과를 연결하는 글 구조 재정리
+- Current Work: DXY 자동 다운로드, USD/KRW와 DXY 비교를 통한 원화 고유 압력 proxy, 외국인 순매수 선택 입력 구조를 Week 1 분석과 글에 연결
 - Important Principles: 투자 추천 금지, 재현 가능성, 한계 명시
 
 ## Cumulative Log
@@ -42,3 +42,13 @@
 - `week1/article.md`를 Level 3 독자 기준에 맞게 다시 쓰고, 도입부, 독자 수준 안내, 핵심 요약, 마무리 문단을 보강했다.
 - 문서 안의 설명을 지나치게 초보자용으로 낮추지 않으면서도, 상관관계, 분위수, 이벤트 스터디, 롤링 윈도우 같은 개념이 자연스럽게 이해되도록 문장을 조정했다.
 - `week1/README.md`에 프로젝트 글쓰기 기준과 Week 1 글의 포맷을 명시했다.
+
+### 2026-06-11 (DXY 및 외국인 순매수 확장)
+
+- `src/data_loader.py`에 `DX-Y.NYB` 기반 DXY 다운로드 함수와 선택형 외국인 순매수 CSV 로더를 추가했다.
+- `src/metrics.py`에 DXY 수익률, USD/KRW와 DXY 비교, `won_specific_fx_pressure` 근사치, 외국인 순매수 분위수 및 순매도 이벤트 분석 함수를 추가했다.
+- `src/plots.py`에 DXY 롤링 상관관계 차트, 원화 고유 압력 분위수 차트, 외국인 순매수 분위수 차트, 외국인 순매도 이벤트 차트 함수를 추가했다.
+- `week1/run_week1.py`에서 DXY 자동 다운로드를 시도하고 실패 시 확장 분석만 건너뛰는 구조를 넣었다.
+- `week1/run_week1.py`에서 `foreign_net_buy.csv`가 없으면 외국인 수급 분석을 건너뛰고 전체 실행은 유지하는 안전한 흐름을 구성했다.
+- `week1/data/external/foreign_net_buy_sample.csv`를 추가해 선택형 외부 데이터 입력 형식을 문서와 함께 맞췄다.
+- 실제 실행에서는 DXY 확장 산출물이 생성됐고, 외국인 순매수 파일이 없어 관련 분석은 의도대로 건너뛰었다.

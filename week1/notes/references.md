@@ -75,3 +75,29 @@
 - 기존 연구는 환율-KOSPI 관계가 고정된 법칙이 아니라 동태적으로 변할 수 있음을 보여 준다.
 - 최근 시장 자료는 USD/KRW를 순수 달러 강세 변수로 해석하면 오해할 수 있음을 시사한다.
 - 따라서 이번 Week 1 분석은 단순 상관관계 하나만 제시하는 대신, 분위수 분석, 이벤트 스터디, 롤링 상관관계를 함께 사용해 "당일 약세"와 "이후 지속 약세", 그리고 "국면별 차이"를 분리해서 읽는 데 초점을 둔다.
+
+## 5. 이번 확장 분석의 데이터 입력 구조
+
+### Yahoo Finance DXY 데이터
+
+- 사용 데이터: Yahoo Finance `DX-Y.NYB`
+- 사용 목적:
+  - 글로벌 달러 강세 proxy로 사용
+  - USD/KRW와 비교해 원화 고유 압력을 아주 단순한 방식으로 분리해 보기 위한 기준 변수
+- 주의:
+  - DXY도 완전한 기준 변수는 아니며, 이번 프로젝트에서는 교육 및 포트폴리오 목적의 근사 비교 지표로 사용한다.
+- 링크:
+  - [Yahoo Finance DXY Quote](https://finance.yahoo.com/quote/DX-Y.NYB/)
+
+### KRX 정보데이터시스템 외국인 순매수 데이터
+
+- 사용 데이터: KRX 정보데이터시스템의 투자자별 매매동향 또는 투자자별 거래실적 계열 데이터
+- 사용 목적:
+  - 환율-KOSPI 관계가 외국인 수급과 함께 움직이는지 확인
+  - 외국인 순매수 분위수와 외국인 순매도 이벤트 이후 KOSPI 반응 확인
+- 이번 프로젝트 입력 방식:
+  - 자동 수집 대신 사용자가 확보한 CSV를 `week1/data/external/foreign_net_buy.csv` 경로에 넣는 선택형 구조
+  - 컬럼 형식은 `date,foreign_net_buy_krw`
+- 링크:
+  - [KRX Data Marketplace 메인](https://data.krx.co.kr/contents/MDC/MAIN/main/index.cmd)
+  - [KRX Data Marketplace에서 확인 가능한 투자자별 거래실적 안내](https://data.krx.co.kr/contents/MDC/MAIN/main/index.cmd)

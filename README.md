@@ -18,22 +18,19 @@ Weekly Quant Lab은 매주 하나의 시장 질문을 데이터로 점검하는 
 - 가격 데이터: `yfinance`
 - KOSPI 지수: `^KS11`
 - USD/KRW 환율: `KRW=X`
+- DXY 지수: `DX-Y.NYB`
 
-`week1/run_week1.py`는 두 시계열을 같은 거래일 기준으로 inner join하여 분석합니다. 기본 분석 기간은 `2010-01-01`부터 실행일 기준 종료일까지이며, 실행 인자로 변경할 수 있습니다.
+`week1/run_week1.py`는 기본적으로 KOSPI와 USD/KRW를 같은 거래일 기준으로 inner join하여 분석한다. 확장 분석에서는 DXY를 자동 다운로드하고, 사용자가 `week1/data/external/foreign_net_buy.csv`를 넣으면 외국인 순매수 분석도 함께 수행한다. 기본 분석 기간은 `2010-01-01`부터 실행일 기준 종료일까지이며, 실행 인자로 변경할 수 있다.
 
 ## 빠른 실행 방법
 
-```bash
-python -m pip install -r requirements.txt
-python -m py_compile src/data_loader.py src/metrics.py src/plots.py src/event_study.py src/utils.py week1/run_week1.py
-python week1/run_week1.py
-```
+- 의존성 설치: `python -m pip install -r requirements.txt`
+- 문법 확인: `python -m py_compile src/data_loader.py src/metrics.py src/plots.py src/event_study.py src/utils.py week1/run_week1.py`
+- Week 1 실행: `python week1/run_week1.py`
 
 고정된 기간으로 재현하려면 날짜 인자를 함께 사용합니다.
 
-```bash
-python week1/run_week1.py --start-date 2010-01-01 --end-date 2026-06-10
-```
+- 기간 고정 실행: `python week1/run_week1.py --start-date 2010-01-01 --end-date 2026-06-10`
 
 ## 생성 산출물
 
@@ -41,6 +38,7 @@ python week1/run_week1.py --start-date 2010-01-01 --end-date 2026-06-10
 - 차트: `week1/outputs/charts/`
 - 원본 및 가공 데이터: `week1/data/`
 - 글 초안: `week1/article.md`
+- 선택형 외부 데이터: `week1/data/external/`
 
 ## 프로젝트 원칙
 
@@ -49,32 +47,30 @@ python week1/run_week1.py --start-date 2010-01-01 --end-date 2026-06-10
 - 수익률 보장 표현 금지
 - 모든 분석은 교육 및 포트폴리오 목적
 - 데이터 출처, 분석 기간, 표본 수, 한계 명시
+- USD/KRW와 DXY를 구분해 해석
+- 외국인 순매수 데이터는 선택형 입력 구조로 관리
 
 ## 폴더 구조
 
-```text
-Weekly_Quant_Lab/
-  README.md
-  PROJECT_LOG.md
-  AGENTS.md
-  requirements.txt
-  src/
-    data_loader.py
-    metrics.py
-    plots.py
-    event_study.py
-    utils.py
-  week1/
-    README.md
-    article.md
-    run_week1.py
-    data/
-      raw/
-      processed/
-    outputs/
-      charts/
-      tables/
-      report_assets/
-    notes/
-      methodology.md
-```
+- `Weekly_Quant_Lab/`
+- `README.md`
+- `PROJECT_LOG.md`
+- `AGENTS.md`
+- `requirements.txt`
+- `src/`
+- `src/data_loader.py`
+- `src/metrics.py`
+- `src/plots.py`
+- `src/event_study.py`
+- `src/utils.py`
+- `week1/`
+- `week1/README.md`
+- `week1/article.md`
+- `week1/run_week1.py`
+- `week1/data/raw/`
+- `week1/data/processed/`
+- `week1/data/external/`
+- `week1/outputs/charts/`
+- `week1/outputs/tables/`
+- `week1/outputs/report_assets/`
+- `week1/notes/methodology.md`
