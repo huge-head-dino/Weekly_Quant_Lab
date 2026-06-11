@@ -3,9 +3,9 @@
 ## Current Status
 
 - Project Name: Weekly Quant Lab
-- Status Summary: Week 1 1차 분석 완료
+- Status Summary: Week 1 Level 3 블로그형 리서치 노트 고도화 중
 - Week 1 Topic: 달러 강세와 KOSPI 관계 분석
-- Current Work: 롤링 상관관계 추가 및 `article.md` 보고서 고도화
+- Current Work: 무료 블로그형 콘텐츠 기준에 맞춰 연구 맥락, 시장 맥락, 자체 분석 결과를 연결하는 글 구조 재정리
 - Important Principles: 투자 추천 금지, 재현 가능성, 한계 명시
 
 ## Cumulative Log
@@ -27,3 +27,18 @@
 - `week1/run_week1.py`에서 `rolling_correlation.csv`와 `rolling_correlation_252d.png`를 생성하고, `summary_table.csv`에 롤링 통계 요약을 추가했다.
 - `week1/article.md`를 실제 발행 가능한 초안 수준으로 다듬고, 생성된 차트 경로와 핵심 해석, 한계를 반영했다.
 - `week1/README.md`에 롤링 상관관계 산출물을 추가하고, 전체 기간 평균이 국면별 차이를 가릴 수 있다는 주의사항을 보강했다.
+
+### 2026-06-11
+
+- `week1/notes/references.md`를 새로 만들어 김상배(2023) 논문, KCMI 환율 관련 자료, 최근 시장 보도 요지를 정리했다.
+- `week1/notes/research_context.md`를 새로 만들어 이번 분석이 왜 단순 상관관계 이상을 봐야 하는지, 기존 연구와 어떤 점에서 다르고 어떤 포지션에 있는지 정리했다.
+- `week1/article.md`를 연구 맥락, 현재 시장 맥락, 자체 데이터 결과가 자연스럽게 이어지는 리서치 콘텐츠 초안으로 재구성했다.
+- `week1/README.md`에 리서치 노트 문서를 소개해 분석 산출물과 해석 문서를 함께 따라갈 수 있도록 했다.
+- `PROJECT_LOG.md`의 현재 상태를 Week 1 리서치 맥락 보강 단계에 맞게 갱신했다.
+
+### 2026-06-11 (Level 3 블로그형 방향 조정)
+
+- 무료/유료 콘텐츠 분리 없이 Week 1 글을 그대로 블로그에 올릴 수 있는 무료 블로그형 리서치 노트로 재정렬했다.
+- `week1/article.md`를 Level 3 독자 기준에 맞게 다시 쓰고, 도입부, 독자 수준 안내, 핵심 요약, 마무리 문단을 보강했다.
+- 문서 안의 설명을 지나치게 초보자용으로 낮추지 않으면서도, 상관관계, 분위수, 이벤트 스터디, 롤링 윈도우 같은 개념이 자연스럽게 이해되도록 문장을 조정했다.
+- `week1/README.md`에 프로젝트 글쓰기 기준과 Week 1 글의 포맷을 명시했다.
